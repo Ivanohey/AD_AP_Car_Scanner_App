@@ -19,7 +19,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import tensorflow as tf
 
-
+print("Library import done !")
 ####################################################
 
 data_original = os.listdir('/Users/nicco/Desktop/ADA_project/cars dataset')
