@@ -18,11 +18,12 @@ from sklearn.utils import shuffle
 from tensorflow import keras
 from tensorflow.keras import layers
 import tensorflow as tf
+import splitfolders
 
 print("Library import done !")
 ####################################################
 
-data_original = os.listdir('/Users/nicco/Desktop/ADA_project/cars dataset')
+data_original = os.listdir('./data/cars dataset')
 image_df = pd.DataFrame(data_original,columns=['Image'])
 sel = image_df[['Image']]
 image_df = pd.concat([image_df, sel],axis=1)
@@ -57,7 +58,7 @@ cars_df.reset_index(drop=True)
 
 cars_df
 
-cars_df.to_csv('Cars_dataset_final.csv', encoding='utf-8')
+cars_df.to_csv('./data/transformed/Cars_dataset_final.csv', encoding='utf-8')
 print(cars_df)
 
 
@@ -91,30 +92,30 @@ labels = cars_df.sort_values('brand')
 class_names = list(cars_df.brand.unique())
 
 for i in class_names:
-    os.makedirs(os.path.join('/Users/nicco/Desktop/ADA_project/test',i))
+    os.makedirs(os.path.join('./data/transformed/from',i))
 
 #############################################################
 
 for c in class_names:
     for i in list(labels[labels['brand']==c]['img_id']):
 
-        get_image = os.path.join('/Users/nicco/Desktop/ADA_project/cars dataset',i)       
-        if not os.path.exists('/Users/nicco/Desktop/ADA_project/test/'+c+i):
+        get_image = os.path.join('./data/cars dataset',i)       
+        if not os.path.exists('./data/transformed/from/'+c+i):
             
-            move_image_to_cat = shutil.copy(get_image,'/Users/nicco/Desktop/ADA_project/test/'+c)
+            move_image_to_cat = shutil.copy(get_image,'./data/transformed/from/'+c)
 
 #############################################################
 
 # Here it is necessary to install splitfolder with pip 
 
-import splitfolders
+
 
 #### input dataset that want to split
-input_folder = '/Users/nicco/Desktop/ADA_project/test'  
+input_folder = './data/transformed/from'  
 
-output_folder= '/Users/nicco/Desktop/ADA_project/data_splitted'
+output_folder= './data/transformed/data_splitted'
 
-splitfolders.ratio(input_folder, output= output_folder, seed=1337, ratio = (0.8, 0, 0.2))
+splitfolders.ratio(input_folder, output= output_folder, seed=1337, ratio = (0.9, 0, 0.1))
 
 #############################################################
 
@@ -138,7 +139,7 @@ resizing = (150,150)
 # CNN function that loads images for the split
 
 def img_loading():
-    split_directory = '/Users/nicco/Desktop/ADA_project/data_splitted'
+    split_directory = './data/transformed/data_splitted'
     split_category = ["train", "test"]
 
     mod_img = []
@@ -278,7 +279,7 @@ def brand_id(x):
 
 newimages = []
 
-new_input_path = os.path.join("/Users/nicco/Desktop/ADA_project/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
+new_input_path = os.path.join("./data/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
 
 #new input resize and reshape:
 new_image = cv2.imread(new_input_path)
