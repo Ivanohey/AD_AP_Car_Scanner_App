@@ -9,6 +9,10 @@ import cv2
 import random
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+import ssl
+from PIL import Image
+import urllib.request
 
 from sklearn.metrics import classification_report
 from sklearn.utils import shuffle
@@ -266,18 +270,6 @@ def train_model(train_images, train_labels, test_images, test_labels):
     return
 
 
-########################################################
-
-
-### FOR IVAN ### Tried to design new
-
-#Define a switch that will take the index of class_names and return the car brand in string.
-#!!!ATTENTION!!! je n'ai pas réussi à l'appliquer pour le ndarray obtenu dans le model
-
-#class_names est la list contenant les marques de voitures dans l'ordre alphabétique.
-#Le CNN classifie les voitures de 0 à 26, class names reprend cet index et y attribue une marque correspondante en ordre alphabétique/numérique): 0= Alpha Romeo -> 26= Volvo
-
-print(__name__)
 if __name__ == "__main__":
     train_images, train_labels, test_images, test_labels = main()
     train_model(train_images, train_labels, test_images, test_labels)
@@ -300,10 +292,16 @@ def predict_new_input():
     #new_input_path = os.path.join("./data/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
     #new_input_path = os.path.join("./data/new_input/Audi_A3_2015_35_17_170_18_4_nan_55_175_24_FWD_4_2_Convertible_QWP.jpg")
     #new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
-    new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 19.48.24.jpeg")
+    
+    # This restores the same behavior as before.
+    context = ssl._create_unverified_context()
+    req = urllib.request.urlopen('https://images.ctfassets.net/uaddx06iwzdz/5bVowetDTS3KSzwmdf6lkW/15fe2c517e995350b1af2331ca4679e6/vw-golf-7-l-03.jpg', context=context)
+    arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+    file = cv2.imdecode(arr, -1) 
+    new_image = file
+    print("opening image")
     resizing = (150,150)
-    #new input resize and reshape:
-    new_image = cv2.imread(new_input_path)
+
     new_image = cv2.cvtColor(new_image, cv2.COLOR_BGR2GRAY)
     new_image = cv2.resize(new_image, resizing)
     newimages.append(new_image)
