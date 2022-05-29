@@ -13,7 +13,6 @@ from kivy.properties import ObjectProperty, StringProperty
 import time
 import base64
 
-
 #We import our API
 import api
 
@@ -47,13 +46,12 @@ class CameraClick(BoxLayout):
         #converting image to a base64, if you want to send it, for example, via POST:
         with open(self.path, "rb") as image_file:
             print("Opened just taken picture")
-            
             #We encode the bytes to Base64
-            encoded_string = base64.b64encode(image_file.read())
-            
+            encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+        
         if not encoded_string:
             encoded_string = ''
-
+        
         #We send the encoded string to backend
         data = {"img":encoded_string}
         api.sendPicture(data['img'])
@@ -75,8 +73,6 @@ class CameraClick(BoxLayout):
 #     def pressedButton(self, instance):
 #         #Send picture to backend here
 #         print(self.name.text)
-
-    
 
 
 #We run our Frontend

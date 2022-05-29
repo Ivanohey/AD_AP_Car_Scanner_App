@@ -215,29 +215,20 @@ def train_model(train_images, train_labels, test_images, test_labels):
     tf.keras.layers.Dense(27, activation = tf.nn.softmax)
     ])
 
-
     # Establishes further parameters such as optimizer, metrics etc...
-
     cnn_model.compile(optimizer='adam',
                 loss='sparse_categorical_crossentropy',
                 metrics=['accuracy'])
 
-
     # cnn model summary
-
     cnn_model.summary()
-
-    ##########################################################
 
     # CNN model fitting, we throw our train images into the model: COMPUTATION TIME on macbook air no M1 chiped: ~24mins
 
     cars_fit = cnn_model.fit(train_images, train_labels, batch_size = 128, epochs = 7)
 
-    ##########################################################
-
     test_loss = cnn_model.evaluate(test_images, test_labels)
-
-    #########################################################
+    
     pred = cnn_model.predict(test_images)
     pred_labels = np.argmax(pred, axis=1)
     #########################################################
@@ -268,7 +259,6 @@ def brand_id(index):
     brand_name.append(class_names[index])
     print(brand_name)
 
-
     #testing with new inputs:
 def predict_new_input():
     cnn_model = tf.keras.models.load_model('./model/saved_model')
@@ -278,8 +268,7 @@ def predict_new_input():
     #new_input_path = os.path.join("./data/new_input/Audi_A3_2015_35_17_170_18_4_nan_55_175_24_FWD_4_2_Convertible_QWP.jpg")
     #new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
 
-    #Create logic to convert image from base64 
-    
+    #Create logic to convert image from base64     
     # This restores the same behavior as before.
     context = ssl._create_unverified_context()
     link = 'https://images.ctfassets.net/uaddx06iwzdz/5bVowetDTS3KSzwmdf6lkW/15fe2c517e995350b1af2331ca4679e6/vw-golf-7-l-03.jpg'
@@ -300,7 +289,6 @@ def predict_new_input():
     new_pred = cnn_model.predict(new_inputs)
     new_pred_labels = np.argmax(new_pred, axis=1)
 
-    
     print("PREDICTION FINISHED:")
     index = new_pred_labels[0]
     print(new_pred_labels[0])

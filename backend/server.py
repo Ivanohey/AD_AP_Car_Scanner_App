@@ -43,15 +43,12 @@ async def newRoot():
 
 #API POST request, here the server receives a picture from the frontend and call predict.predict()
 @app.post("/picture")
-async def postPicture(img: PictureModel):
+async def postPicture(b64_img: PictureModel):
     print("Received POST request at /picture")
-
-    data = img.img
-    #print(data)
+    data = b64_img.img
+    
     #We encode the received string to a bytelike object
-    img_bytes = base64.b64decode(data.encode("ascii"))
-    print(img_bytes)
-    return {"result": predict.testFct(img_bytes)}
+    return {"result": predict.testFct(data)}
 
 # === Start server using hypercorn ===
 asyncio.run(serve(app, Config()))
