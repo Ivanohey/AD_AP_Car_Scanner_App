@@ -1,4 +1,5 @@
 #Frontend server
+from importlib.resources import path
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
@@ -8,7 +9,10 @@ from kivy.uix.button import Button
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty, StringProperty
 import time
+import base64
+
 
 #We import our API
 import api
@@ -34,14 +38,25 @@ Builder.load_string('''
 
 #We define our camera object
 class CameraClick(BoxLayout):
+    path= StringProperty("./picture.png")
     def capture(self):
-        camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_{}.png".format(timestr))
+        camera = self.ids['camera']
+        camera.export_to_png("picture.png".format(timestr))
+        
+        #converting image to a base64, if you want to send it, for example, via POST:
+        with open(self.path, "rb") as image_file:
+            print("Opened just taken picture")
+            
+            #We encode the bytes to Base64
+            encoded_string = base64.b64encode(image_file.read())
+            
+        if not encoded_string:
+            encoded_string = ''
 
-        #ADD LOGIC TO TRANSFORM TO SEND IMAGE
-
-        api.sendPicture()
+        #We send the encoded string to backend
+        data = {"img":encoded_string}
+        api.sendPicture(data['img'])
         print("Captured picture")
 
 # class Grid(GridLayout):

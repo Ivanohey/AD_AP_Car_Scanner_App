@@ -9,6 +9,7 @@ import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import predict
+import base64
 
 class PictureModel(BaseModel):
     img: str
@@ -41,10 +42,16 @@ async def newRoot():
 
 
 #API POST request, here the server receives a picture from the frontend and call predict.predict()
-@app.get("/picture")
-async def postPicture():
-    print("Received POST resquest at /picture")
-    return {"result": "test"}
+@app.post("/picture")
+async def postPicture(img: PictureModel):
+    print("Received POST request at /picture")
+
+    data = img.img
+    #print(data)
+    #We encode the received string to a bytelike object
+    img_bytes = base64.b64decode(data.encode("ascii"))
+    print(img_bytes)
+    return {"result": predict.testFct(img_bytes)}
 
 # === Start server using hypercorn ===
 asyncio.run(serve(app, Config()))

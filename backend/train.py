@@ -13,12 +13,8 @@ import numpy as np
 import ssl
 from PIL import Image
 import urllib.request
-
 from sklearn.metrics import classification_report
 from sklearn.utils import shuffle
-#from tqdm import tqdm
-
-
 from tensorflow import keras
 from tensorflow.keras import layers
 import tensorflow as tf
@@ -134,17 +130,13 @@ def main():
     'Toyota', 'Volkswagen', 'Volvo']
 
     nb_classes = len(class_names)
-
     class_names_label = {class_name:i for i, class_name in enumerate(class_names)}
-
     resizing = (150,150)
-
 
     #test here
     (train_images, train_labels), (test_images, test_labels) = img_loading(class_names_label, resizing)
     return train_images, train_labels, test_images, test_labels
     ############################################################
-
     # CNN function that loads images for the split
 
 def img_loading(class_names_label, resizing):
@@ -184,14 +176,7 @@ def img_loading(class_names_label, resizing):
 
     return mod_img
 
-    ##########################################################
-
-    
-
-    ##########################################################
-
     # Sample of a modeled image just before cnn process 
-
     plt.imshow(test_images[15])
     plt.figure(figsize=(10,10))
     for i in range(16):
@@ -292,10 +277,13 @@ def predict_new_input():
     #new_input_path = os.path.join("./data/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
     #new_input_path = os.path.join("./data/new_input/Audi_A3_2015_35_17_170_18_4_nan_55_175_24_FWD_4_2_Convertible_QWP.jpg")
     #new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
+
+    #Create logic to convert image from base64 
     
     # This restores the same behavior as before.
     context = ssl._create_unverified_context()
-    req = urllib.request.urlopen('https://images.ctfassets.net/uaddx06iwzdz/5bVowetDTS3KSzwmdf6lkW/15fe2c517e995350b1af2331ca4679e6/vw-golf-7-l-03.jpg', context=context)
+    link = 'https://images.ctfassets.net/uaddx06iwzdz/5bVowetDTS3KSzwmdf6lkW/15fe2c517e995350b1af2331ca4679e6/vw-golf-7-l-03.jpg'
+    req = urllib.request.urlopen(link, context=context)
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     file = cv2.imdecode(arr, -1) 
     new_image = file
