@@ -52,7 +52,7 @@ async def postPicture(json_image: PictureModel):
     
     
     #We encode the received string to a bytelike object
-    return {"result": predict.testFct(json_image)}
+    return {"result": predict.predict(json_image)}
 
 # === Start server using hypercorn ===
 asyncio.run(serve(app, Config()))

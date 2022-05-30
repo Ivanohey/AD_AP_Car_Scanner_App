@@ -260,25 +260,29 @@ def brand_id(index):
     print(brand_name)
 
     #testing with new inputs:
-def predict_new_input():
+def predict_new_input(path):
+    print(path)
+    print("STARTED LOADING MODEL")
     cnn_model = tf.keras.models.load_model('./model/saved_model')
+    print("LOAD MODEL WORKED")
     cnn_model.summary()
     newimages = []
     #new_input_path = os.path.join("./data/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
     #new_input_path = os.path.join("./data/new_input/Audi_A3_2015_35_17_170_18_4_nan_55_175_24_FWD_4_2_Convertible_QWP.jpg")
-    #new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
+    new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
 
     #Create logic to convert image from base64     
     # This restores the same behavior as before.
-    context = ssl._create_unverified_context()
-    link = 'https://images.ctfassets.net/uaddx06iwzdz/5bVowetDTS3KSzwmdf6lkW/15fe2c517e995350b1af2331ca4679e6/vw-golf-7-l-03.jpg'
-    req = urllib.request.urlopen(link, context=context)
-    arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
-    file = cv2.imdecode(arr, -1) 
-    new_image = file
-    print("opening image")
+    # context = ssl._create_unverified_context()
+    # link = path
+    #req = urllib.request.urlopen(link, context=context)
+    #arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+    # arr = np.asarray(bytearray(new_input_path.read()), dtype=np.uint8)
+    # file = cv2.imdecode(arr, -1) 
+    # new_image = file
+    # print("opening image")
     resizing = (150,150)
-
+    new_image = cv2.imread(new_input_path)
     new_image = cv2.cvtColor(new_image, cv2.COLOR_BGR2GRAY)
     new_image = cv2.resize(new_image, resizing)
     newimages.append(new_image)
