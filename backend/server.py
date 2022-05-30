@@ -45,11 +45,12 @@ async def newRoot():
     return {"message": "I'm posting this from server.py at localhost:8000 - function newRoot"}
 
 
-#API POST request, here the server receives a picture from the frontend and call predict.predict()
+#API POST request, here the server receives a picture 
+#from the frontend on http://127.0.0.1:8000/picture 
+#and calls predict.predict() passing the received string
 @app.post("/picture")
 async def postPicture(json_image: PictureModel):
     print("Received POST request at /picture")
-    
     
     #We encode the received string to a bytelike object
     return {"result": predict.predict(json_image)}
