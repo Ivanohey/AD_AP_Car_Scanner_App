@@ -43,12 +43,13 @@ class CameraClick(BoxLayout):
         camera = self.ids['camera']
         camera.export_to_png("picture.png".format(timestr))
         
-        #converting image to a base64, if you want to send it, for example, via POST:
+        #converting image to a base64 so that we can send it to backend
         with open(self.path, "rb") as image_file:
             print("Opened just taken picture")
-            #We encode the bytes to Base64
+            
+            #We encode the bytes in base64 string so that we can send it through HTTP 
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-            #print(encoded_string)
+    
         if not encoded_string:
             encoded_string = ''
         
