@@ -89,7 +89,7 @@ def main():
     input_folder = './data/transformed/from'  
     output_folder= './data/transformed/data_splitted'
 
-    splitfolders.ratio(input_folder, output= output_folder, seed=1337, ratio = (0.9, 0, 0.1))
+    splitfolders.ratio(input_folder, output= output_folder, seed=1337, ratio = (0.8, 0, 0.2))
 
     class_names = list(cars_df.brand.unique())
     print(sorted(class_names))
@@ -162,7 +162,7 @@ def train_model(train_images, train_labels, test_images, test_labels):
 
     # CNN model fitting, we throw our train images into the model: COMPUTATION TIME on macbook air no M1 chiped: ~24mins
 
-    cars_fit = cnn_model.fit(train_images, train_labels, batch_size = 128, epochs = 7)
+    cars_fit = cnn_model.fit(train_images, train_labels, batch_size = 128, epochs = 5)
 
     test_loss = cnn_model.evaluate(test_images, test_labels)
     
