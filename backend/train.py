@@ -19,6 +19,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import tensorflow as tf
 import splitfolders
+import json
 
 
 def main():
@@ -252,12 +253,12 @@ if __name__ == "__main__":
 
 
 def brand_id(index):
-    brand_name = []
     class_names = ['Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'FIAT', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Jeep',
     'Kia', 'Land Rover', 'Lexus', 'Maserati', 'Mazda', 'Mercedes-Benz', 'MINI', 'Mitsubishi', 'Nissan', 'Porsche', 'smart', 'Subaru', 'Tesla',
     'Toyota', 'Volkswagen', 'Volvo']
-    brand_name.append(class_names[index])
+    brand_name = class_names[index]
     print(brand_name)
+    return brand_name
 
     #testing with new inputs:
 def predict_new_input(path):
@@ -269,8 +270,8 @@ def predict_new_input(path):
     newimages = []
     #new_input_path = os.path.join("./data/new_input/2017_Fiat_500X_POP_Star_Multiair_1.4_Front.jpg")
     #new_input_path = os.path.join("./data/new_input/Audi_A3_2015_35_17_170_18_4_nan_55_175_24_FWD_4_2_Convertible_QWP.jpg")
-    new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
-
+    #new_input_path = os.path.join("./data/new_input/WhatsApp Image 2022-05-28 at 18.26.51.jpeg")
+    new_input_path = path
     #Create logic to convert image from base64     
     # This restores the same behavior as before.
     # context = ssl._create_unverified_context()
@@ -295,10 +296,13 @@ def predict_new_input(path):
 
     print("PREDICTION FINISHED:")
     index = new_pred_labels[0]
+    carbrand = brand_id(index)
     print(new_pred_labels[0])
-    brand_id(index)
-
-    return new_pred_labels
+    print(carbrand)
+    result = {'id':str(index), 'brand':carbrand}
+    res = json.dumps(result)
+    print("SENDING ANSWER TO FRONTEND")
+    return res
 
 
 
