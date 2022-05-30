@@ -13,9 +13,9 @@ def sendPicture(encoded_string):
     
     # To send the file we transform it into a string
     base64_string = encoded_string
-    img = {'img': base64_string}
-    data = json.dumps(img)
-
+    print(encoded_string)
+    json_img = {'img': base64_string}
+    data = json.dumps(json_img)
     req = UrlRequest(server_url+"/picture", print_result, req_body=data)
     print("Picture was sent at /picture !")
     

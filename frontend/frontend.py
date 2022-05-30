@@ -48,13 +48,12 @@ class CameraClick(BoxLayout):
             print("Opened just taken picture")
             #We encode the bytes to Base64
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-        
+            #print(encoded_string)
         if not encoded_string:
             encoded_string = ''
         
         #We send the encoded string to backend
-        data = {"img":encoded_string}
-        api.sendPicture(data['img'])
+        api.sendPicture(encoded_string)
         print("Captured picture")
 
 # class Grid(GridLayout):
