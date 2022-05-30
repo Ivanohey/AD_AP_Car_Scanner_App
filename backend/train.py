@@ -184,7 +184,7 @@ def brand_id(index):
     print(brand_name)
     return brand_name
 
-    #testing with new inputs:
+#Prediction with new inputs:
 def predict_new_input(path):
 
     #We load the already trained model

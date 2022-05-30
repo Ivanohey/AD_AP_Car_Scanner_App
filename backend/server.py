@@ -23,6 +23,7 @@ app = FastAPI()
 
 origins = ["*"]
 
+#We define some CORS options in case we would like to deploy and use web browser
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

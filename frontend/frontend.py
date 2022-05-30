@@ -87,9 +87,6 @@ class CameraClick(BoxLayout):
         print("Captured picture")
         
 
-    
-        
-
 #We run our Frontend
 class FrontApp(App):
     def build(self):
@@ -97,21 +94,3 @@ class FrontApp(App):
 
 if __name__ == "__main__":
     FrontApp().run()
-
-
-# class Grid(GridLayout):
-#     def __init__(self, **kwargs):
-#         super(Grid, self).__init__(**kwargs)
-#         self.cols = 1
-#         self.add_widget(Label(text="Name: "))
-#         self.name = TextInput(multiline = False)
-#         self.add_widget(self.name)
-#         self.submit = Button(text="Submit", font_size=40)
-        
-#         self.submit.bind(on_press=self.pressedButton)
-#         self.add_widget(self.submit)
-        
-
-#     def pressedButton(self, instance):
-#         #Send picture to backend here
-#         print(self.name.text)
