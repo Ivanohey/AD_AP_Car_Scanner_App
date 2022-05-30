@@ -16,8 +16,7 @@ import base64
 from config import server_url
 import json
 
-#from frontend.api import sendPicture
-
+#We define the layout of the interface
 Builder.load_string('''
 <CameraClick>:
     orientation: 'vertical'
@@ -69,6 +68,8 @@ class CameraClick(BoxLayout):
         timestr = time.strftime("%Y%m%d_%H%M%S")
         camera = self.ids['camera']
         label = self.ids['brand_label']
+
+        #We take the picture from the camera stream and save it as png
         camera.export_to_png("picture.png".format(timestr))
         
         #converting image to a base64

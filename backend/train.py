@@ -23,8 +23,6 @@ import json
 
 
 def main():
-    print("Library import done !")
-
     #Data wrangling: We perform some cleaning in order to get rid of useless data and to make the dataset more accurate to european car industry
     data_original = os.listdir('./data/cars dataset')
     image_df = pd.DataFrame(data_original,columns=['Image'])
@@ -55,7 +53,8 @@ def main():
         cars_df.drop(cars_df[cars_df['car_type'] == b].index, inplace = True)
 
     #Parsing img names and creating csv dataset
-    cars_df['new_id'] = cars_df['brand']+"_"+cars_df['model']+"_"+cars_df['year']+"_"+cars_df['car_type']+".jpg" #New variable containing the new filenames for pictures
+    cars_df['new_id'] = cars_df['brand']+"_"+cars_df['model']+"_"+cars_df['year']+"_"+cars_df['car_type']+".jpg" 
+  
     cars_df.reset_index(drop=True)
     cars_df.to_csv('./data/transformed/Cars_dataset_final.csv', encoding='utf-8')
     print(cars_df)
@@ -138,10 +137,10 @@ def img_loading(class_names_label, resizing):
 
     return mod_img
 
+#Function used to train the model
 def train_model(train_images, train_labels, test_images, test_labels):
     # CNN model building
     print("Training model...")
-
     cnn_model = tf.keras.Sequential([
     tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='valid',input_shape = (150, 150, 1)),
     tf.keras.layers.MaxPooling2D(2, 2),
@@ -161,21 +160,15 @@ def train_model(train_images, train_labels, test_images, test_labels):
     cnn_model.summary()
 
     # CNN model fitting, we throw our train images into the model: COMPUTATION TIME on macbook air no M1 chiped: ~24mins
-
     cars_fit = cnn_model.fit(train_images, train_labels, batch_size = 128, epochs = 5)
-
     test_loss = cnn_model.evaluate(test_images, test_labels)
-    
     pred = cnn_model.predict(test_images)
     pred_labels = np.argmax(pred, axis=1)
-    #########################################################
-
-    # Final summary of the model trained and tested.
-
     brands = ['Alfa Romeo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'FIAT', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Jeep', 'Kia',
     'Land Rover', 'Lexus', 'Maserati', 'Mazda', 'Mercedes-Benz', 'MINI', 'Mitsubishi', 'Nissan', 'Porsche', 'smart', 'Subaru', 'Tesla', 'Toyota',
     'Volkswagen', 'Volvo']
 
+    # Final summary of the model trained and tested.
     print(classification_report(test_labels, pred_labels, target_names = brands))
     
     #Save the model so we can use it elsewhere
@@ -193,15 +186,14 @@ def brand_id(index):
 
     #testing with new inputs:
 def predict_new_input(path):
-    print(path)
-    print("STARTED LOADING MODEL, if breaks right after this point, it means that the proper package to use is tensorflow-cpu")
-    cnn_model = tf.keras.models.load_model('./model/saved_model')
-    print("LOAD MODEL WORKED")
-    cnn_model.summary()
-    newimages = []
-    
-    new_input_path = path
 
+    #We load the already trained model
+    cnn_model = tf.keras.models.load_model('./model/saved_model')
+    cnn_model.summary()
+
+    #We load the image to classify + perfom the necessary transformations
+    new_input_path = path
+    newimages = []
     resizing = (150,150)
     new_image = cv2.imread(new_input_path)
     new_image = cv2.cvtColor(new_image, cv2.COLOR_BGR2GRAY)
@@ -219,6 +211,7 @@ def predict_new_input(path):
     carbrand = brand_id(index)
     print(new_pred_labels[0])
     print(carbrand)
+    #Format the result to prepare it to be sent to frontend
     result = {'id':str(index), 'brand':carbrand}
     res = json.dumps(result)
     return res
