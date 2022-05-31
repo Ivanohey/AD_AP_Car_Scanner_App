@@ -40,7 +40,7 @@ python frontend.py
 ````
 
 ## Backend
-After making sure that all the Python dependecies are installed, from the root of the project navigate to the frontend folder and run the backend file:
+After making sure that all the Python dependecies are installed, from the root of the project navigate to the backend folder and run the backend file:
 The server uses FastAPI and listenes to http://127.0.0.1:8000 when ran locally. 
 
 ````
