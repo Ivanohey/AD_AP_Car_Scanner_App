@@ -4,6 +4,10 @@
 
 This repository contains all the files for our project of the cours Advanced Programming of the Master in Business Analytics of HEC Lausanne
 
+## Scope of the project
+
+For this project we chose to create a prototype of a mobile application allowing a user to take a photo of a car in the street and to obtain information on its brand and model thanks to a deep learning model running in the backend of the application.
+
 ## Installation
 Cloning the project:
 ```
